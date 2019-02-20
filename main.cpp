@@ -30,8 +30,10 @@ int main()
     }
 
     {
-        SimpleSmartPointerToC ssp {new C()};
+       // SimpleSmartPointerToC ssp {new C()};
+       // auto up = std::make_unique<C>(); // up to unique pointer //to w C++14
+        auto up2 = std::unique_ptr<C>(new C()); //to w C++11
     }
-
+        // w C++14 std::make_unique<C>()
     return 0;
 }

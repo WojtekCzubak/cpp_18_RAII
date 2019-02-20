@@ -1,0 +1,78 @@
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+class Vector2D
+{
+public:
+    Vector2D() { counter++; }
+    ~Vector2D() { counter--; }
+    static int numberOfInstances() { /* x++; */ return counter; }
+private:
+    static int counter;
+    //int x;
+};
+
+namespace Vector3D {
+  extern int g_x;
+}
+
+int Vector3D::g_x = 3;
+int Vector2D::counter = 0;
+
+
+
+class AddN {
+public:
+  AddN(int n) : n_(n) {}
+  int operator()(int i) const { return n_ + i; }
+
+private:
+  int n_;
+};
+
+class C
+{
+public:
+    C() { cout << "C::C()" << endl; }
+    ~C() { cout << "~C::C()" << endl; }
+};
+
+
+class SimpleSmartPointerToC
+{
+public:
+    SimpleSmartPointerToC(C *p) : p_{p} {}
+    ~SimpleSmartPointerToC() {
+        if (p_ != nullptr) delete p_;
+    }
+
+private:
+    C *p_ = nullptr;
+};
+
+int main()
+{
+//    C* p1 = new C {};
+//    delete p1;
+//    {
+//        C* p2 = new C {};
+//    }
+
+    {
+        //SimpleSmartPointerToC ssp {new C{}};
+        auto up = std::make_unique<C>();
+        auto up2 = std::unique_ptr<C>(new C{});
+    }
+
+//    AddN add44To {44};
+//    cout << "add44To(6) = " << add44To(6) << endl;
+//    cout << "add44To(10) = " << add44To(10) << endl;
+//    cout << "add44To(6) = " << add44To(6) << endl;
+
+//    AddN add100To {100};
+//    cout << "add100To(10) = " << add100To(10) << endl;
+    return 0;
+}
+
